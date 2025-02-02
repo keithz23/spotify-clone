@@ -1,13 +1,6 @@
-import {ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString, IsDateString } from 'class-validator';
 import { Type } from 'class-transformer';
-import {
-  IsDate,
-  IsDateString,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
 
 export class SongCredit {
   @ApiProperty()
@@ -18,12 +11,12 @@ export class SongCredit {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  songWritten: string;
+  songProduced: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  songProduced: string;
+  songWritten: string;
 
   @ApiProperty()
   @IsString()
@@ -36,12 +29,6 @@ export class SongDto {
   @IsString()
   @IsNotEmpty()
   songTitle: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  
-  songImage: string;
 
   @ApiProperty()
   @IsString()
@@ -65,24 +52,28 @@ export class SongDto {
 
   @ApiProperty({ type: SongCredit })
   @IsNotEmpty()
-  @ValidateNested()
   @Type(() => SongCredit)
   songCredit: SongCredit;
 
-  @ApiProperty()
-  @IsNumber()
-  @IsNotEmpty()
-  songDuration: number;
+  @ApiProperty({ type: 'string', format: 'binary' })
+  songImageFile: any;
+
+  @ApiProperty({ type: 'string', format: 'binary' })
+  songAudio: any;
+
+  // @ApiProperty()
+  // songImageFile: string;
+
+  // @ApiProperty()
+  // songAudio: string;
 
   @ApiProperty()
-  @IsNumber()
+  @IsNotEmpty()
+  songImageHeight: number;
+
+  @ApiProperty()
   @IsNotEmpty()
   songImageWidth: number;
 
-  @ApiProperty()
-  @IsNumber()
-  @IsNotEmpty()
-  songImageHeight: number;
+  songDuration: string;
 }
-
-export class CreateSongDto extends SongDto {}

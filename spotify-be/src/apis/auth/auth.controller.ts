@@ -10,7 +10,6 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/signup')
-  @ApiConsumes('multipart/form-data')
   @ApiResponse({ status: 201, description: 'Account created succesful' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   signup(@Body() signDto: SignupDto) {
@@ -19,7 +18,6 @@ export class AuthController {
   }
 
   @Post('/login')
-  @ApiConsumes('multipart/form-data')
   @ApiResponse({ status: 201, description: 'Login succesful' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async login(@Body() loginDto: LoginDto, @Res() res: Response) {

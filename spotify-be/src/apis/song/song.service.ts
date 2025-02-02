@@ -1,44 +1,51 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Song } from './schemas/song.schema';
 import { Model } from 'mongoose';
 import { SongDto } from './dto/song.dto';
+import { Song, SongDocument } from './schemas/song.schema';
 
 @Injectable()
 export class SongService {
   constructor(
-    @InjectModel(Song.name) private readonly songModel: Model<Song>,
+    @InjectModel(Song.name) private readonly songModel: Model<SongDocument>,
   ) {}
 
-  async addSong(payload: SongDto) {
+  async addSong(payload: SongDto): Promise<Song> {
     const {
       songTitle,
-      songImage,
       songDesc,
       songGenre,
       songAlbum,
       songReleaseDate,
-      songCredit: { songWritten, songPerformed, songSource, songProduced },
-      songDuration,
+      songAudio,
+      songImageFile,
       songImageHeight,
       songImageWidth,
+      songDuration,
+      songCredit: { songPerformed, songWritten, songProduced, songSource },
     } = payload;
 
-    let songData = new this.songModel({
+    const songData = new this.songModel({
       songTitle,
-      songImage,
       songDesc,
       songGenre,
       songAlbum,
       songReleaseDate,
-      songCredit: { songWritten, songPerformed, songSource, songProduced },
-      songDuration,
+      songAudio,
+      songCredit: { songPerformed, songWritten, songProduced, songSource },
+      songImageFile,
       songImageHeight,
       songImageWidth,
+      songDuration,
     });
 
+    console.log(songData);
     await songData.save();
 
     return songData;
+  }
+
+  async getAllSong(): Promise<Song[]> {
+    return this.songModel.find().exec();
   }
 }

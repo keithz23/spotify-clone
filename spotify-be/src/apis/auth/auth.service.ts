@@ -17,7 +17,8 @@ export class AuthService {
   ) {}
 
   async signUp(signupDto: SignupDto): Promise<User> {
-    const { fullName, email, username, phone, password, confirmPasswd } = signupDto;
+    const { fullName, email, username, phone, password, confirmPasswd } =
+      signupDto;
 
     try {
       const existingUser = await this.authModel.findOne({ email });
@@ -38,7 +39,7 @@ export class AuthService {
         username,
         phone,
         password: hashedPassword,
-        confirmPasswd: hashedPassword
+        confirmPasswd: hashedPassword,
       });
 
       payload = await payload.save();
